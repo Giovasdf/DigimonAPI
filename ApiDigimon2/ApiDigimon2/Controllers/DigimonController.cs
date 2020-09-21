@@ -24,6 +24,23 @@ namespace ApiDigimon2.Controllers
             return new JsonResult(list);
         }
 
-        
+        // GET /api/digimon/{5}
+        [HttpGet("{id}")]
+        public JsonResult Digimon(string id)
+        {
+            bool success = Int32.TryParse(id, out int idDigimon);
+            var list = new List<Digimon>();
+            if (success)
+            {
+                list = DigimonAzure.getDigimon(idDigimon);
+            }
+            else
+            {
+                list = DigimonAzure.getDigimon(id);
+            }
+            return new JsonResult(list);
+        }
+
+
     }
 }

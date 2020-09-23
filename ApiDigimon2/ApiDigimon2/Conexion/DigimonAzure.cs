@@ -13,7 +13,7 @@ namespace ApiDigimon2.Conexion
         static string connectionString = @"Server=DESKTOP-S6JN4IA\SQLEXPRESS;Database=Digimon;Trusted_Connection=True;";
 
 
-        public static List<Digimon> listDigimons;
+        public static List<Digimon> listDigimons ;
 
 
         //Get All Digimons
@@ -55,6 +55,7 @@ namespace ApiDigimon2.Conexion
             }
         }
 
+        //Get Digimon by ID
         public static List<Digimon> getDigimon(int id)
         {
             var dt = new DataTable();
@@ -91,6 +92,7 @@ namespace ApiDigimon2.Conexion
             }
         }
 
+        //Get Digimon by Name
         public static List<Digimon> getDigimon(string name)
         {
             var dt = new DataTable();
@@ -126,5 +128,46 @@ namespace ApiDigimon2.Conexion
                 return listDigimons;
             }
         }
+
+        //Get Random Digimon 
+        public static List<Digimon> getDigimonRandom()
+        {
+            var dt = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(null, connection);
+                command.CommandText = "select * from Digimon";
+
+                //abrir la conexion
+                connection.Open();
+                var DataAdapter = new SqlDataAdapter(command);
+                DataAdapter.Fill(dt);
+
+                listDigimons = new List<Digimon>();
+
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    var rand = new Random();
+                    int numRand = rand.Next(0, dt.Rows.Count);
+
+
+                    Digimon digimon = new Digimon();
+                    digimon.name = dt.Rows[numRand]["name"].ToString();
+                    digimon.size = int.Parse(dt.Rows[numRand]["size"].ToString());
+                    digimon.attribute = dt.Rows[numRand]["attribute"].ToString();
+                    digimon.level = dt.Rows[numRand]["level"].ToString();
+                    digimon.type = dt.Rows[numRand]["type"].ToString();
+                    digimon.idDigimon = int.Parse(dt.Rows[numRand]["idDigimon"].ToString());
+
+                    listDigimons.Add(digimon);
+                }
+
+
+                return listDigimons;
+            }
+        }
+
     }
 }

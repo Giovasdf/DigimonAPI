@@ -24,7 +24,7 @@ namespace ApiDigimon2.Controllers
             return new JsonResult(list);
         }
 
-        // GET /api/digimon/{5}
+        // GET /api/digimon/{5}-{Name}
         [HttpGet("{id}")]
         public JsonResult Digimon(string id)
         {
@@ -38,6 +38,14 @@ namespace ApiDigimon2.Controllers
             {
                 list = DigimonAzure.getDigimon(id);
             }
+            return new JsonResult(list);
+        }
+
+        //GET /api/digimon
+        [HttpGet]
+        public JsonResult DigimonRandom()
+        {
+            var list = DigimonAzure.getDigimonRandom();
             return new JsonResult(list);
         }
 

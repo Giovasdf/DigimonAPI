@@ -49,6 +49,13 @@ namespace ApiDigimon2.Controllers
             return new JsonResult(list);
         }
 
+        //POST /api/digimon
+        [HttpPost]
+        public void AddDigimon([FromBody] Digimon digimon)
+        {
+            DigimonAzure.InsertDigimon(digimon);
+        }
+
 
     }
 }

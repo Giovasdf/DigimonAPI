@@ -15,7 +15,6 @@ namespace ApiDigimon2.Conexion
 
         public static List<Digimon> listDigimons ;
 
-
         //Get All Digimons
         public static List<Digimon> getAllDigimons()
         {
@@ -166,6 +165,33 @@ namespace ApiDigimon2.Conexion
 
 
                 return listDigimons;
+            }
+        }
+
+        public static void InsertDigimon(Digimon digimon)
+        {
+            using(SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(null, connection);
+                //Query
+                command.CommandText = "INSERT INTO Digimon (name,level,type,attribute,size) VALUES (@name,@level,@type,@attribute,@size)";
+                command.Parameters.AddWithValue("@name", digimon.name);
+                command.Parameters.AddWithValue("@level", digimon.level);
+                command.Parameters.AddWithValue("@type", digimon.type);
+                command.Parameters.AddWithValue("@attribute", digimon.attribute);
+                command.Parameters.AddWithValue("@size", digimon.size);
+
+                try
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
+                connection.Close();
             }
         }
 
